@@ -44,22 +44,22 @@ private:
     // If the laser reading in front of the robot is higher than one meter the robot will move forward, else it will go to the left
     if (range360 > 1.0)
     {
-      move.linear.x = 0.5;
+      move.linear.x = linear_x;
       move.angular.z = 0.0;
     }
     else
     {
-      move.angular.z = 0.5;
+      move.angular.z = angular_z;
     }
     // If the laser reading on the right side of the robot is lower than one meter the robot will turn left
     if (range180 < 1.0)
     {
-      move.angular.z = 0.5;
+      move.angular.z = angular_z;
     }
     // If the laser reading on the left side of the robot is lower than one meter the robot will turn right
     if (range540 < 1.0)
     {
-      move.angular.z = -0.5;
+      move.angular.z = -angular_z;
     }
     publisher_->publish(move);
   }
@@ -79,6 +79,8 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
   // create a message to publish
   geometry_msgs::msg::Twist move;
+  float linear_x=0.5;
+  float angular_z=1.0;
 };
 
 int main(int argc, char *argv[])
