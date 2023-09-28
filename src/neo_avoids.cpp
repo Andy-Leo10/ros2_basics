@@ -25,7 +25,7 @@ private:
     data_odom_ = msg;
     posX = data_odom_->pose.pose.position.x;
     posY = data_odom_->pose.pose.position.y;
-    //RCLCPP_INFO(this->get_logger(), "posX: '%f'",posX);
+    // RCLCPP_INFO(this->get_logger(), "posX: '%f'",posX);
   }
 
   void laser_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
@@ -36,20 +36,30 @@ private:
     range360 = data_laser_->ranges[360];
     range540 = data_laser_->ranges[540];
     range719 = data_laser_->ranges[719];
-    RCLCPP_INFO(this->get_logger(), "range360: '%f'",range360);
+    RCLCPP_INFO(this->get_logger(), "range360: '%f'", range360);
   }
 
   void timer_callback()
   {
-    if (range360 > 0.5)
+    // If the laser reading in front of the robot is higher than one meter the robot will move forward, else it will go to the left
+    if (range360 > 1.0)
     {
       move.linear.x = 0.5;
       move.angular.z = 0.0;
     }
     else
     {
-      move.linear.x = 0.0;
       move.angular.z = 0.5;
+    }
+    // If the laser reading on the right side of the robot is lower than one meter the robot will turn left
+    if (range180 < 1.0)
+    {
+      move.angular.z = 0.5;
+    }
+    // If the laser reading on the left side of the robot is lower than one meter the robot will turn right
+    if (range540 < 1.0)
+    {
+      move.angular.z = -0.5;
     }
     publisher_->publish(move);
   }
@@ -67,7 +77,7 @@ private:
   float range540;
   float range719;
   rclcpp::TimerBase::SharedPtr timer_;
-  //create a message to publish
+  // create a message to publish
   geometry_msgs::msg::Twist move;
 };
 
