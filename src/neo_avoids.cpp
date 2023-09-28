@@ -13,9 +13,9 @@ public:
   {
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
     odom_subscription_ = this->create_subscription<nav_msgs::msg::Odometry>(
-        "odom", 10, std::bind(&OdomSubscriber::odom_callback, this, _1));
+        "odom", 10, std::bind(&RobotNeo::odom_callback, this, _1));
     laser_subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-        "scan", 10, std::bind(&LaserSubscriber::laser_callback, this, _1));
+        "scan", 10, std::bind(&RobotNeo::laser_callback, this, _1));
     timer_ = this->create_wall_timer(500ms, std::bind(&RobotNeo::timer_callback, this));
   }
 
