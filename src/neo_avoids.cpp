@@ -23,15 +23,14 @@ private:
   void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
     data_odom_ = msg;
-    RCLCPP_INFO(this->get_logger(), "posX: '%f'",
-                data_odom_->pose.pose.position.x);
+    posX = data_odom_->pose.pose.position.x;
+    RCLCPP_INFO(this->get_logger(), "posX: '%f'",posX);
   }
 
   void laser_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
   {
     data_laser_ = msg;
-    RCLCPP_INFO(this->get_logger(), "range0: '%f'",
-                data_laser_->ranges[0]);
+    RCLCPP_INFO(this->get_logger(), "range0: '%f'",data_laser_->ranges[0]);
   }
 
   void timer_callback()
@@ -45,6 +44,7 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_subscription_;
   nav_msgs::msg::Odometry::SharedPtr data_odom_;
+  float posX;
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr laser_subscription_;
   sensor_msgs::msg::LaserScan::SharedPtr data_laser_;
   rclcpp::TimerBase::SharedPtr timer_;
