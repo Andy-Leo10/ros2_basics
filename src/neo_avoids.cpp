@@ -41,10 +41,17 @@ private:
 
   void timer_callback()
   {
-    auto message = geometry_msgs::msg::Twist();
-    message.linear.x = 0.2;
-    message.angular.z = 0.2;
-    publisher_->publish(message);
+    if (range360 > 0.5)
+    {
+      move.linear.x = 0.5;
+      move.angular.z = 0.0;
+    }
+    else
+    {
+      move.linear.x = 0.0;
+      move.angular.z = 0.5;
+    }
+    publisher_->publish(move);
   }
 
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
@@ -53,13 +60,15 @@ private:
   float posX;
   float posY;
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr laser_subscription_;
+  sensor_msgs::msg::LaserScan::SharedPtr data_laser_;
   float range0;
   float range180;
   float range360;
   float range540;
   float range719;
-  sensor_msgs::msg::LaserScan::SharedPtr data_laser_;
   rclcpp::TimerBase::SharedPtr timer_;
+  //create a message to publish
+  geometry_msgs::msg::Twist move;
 };
 
 int main(int argc, char *argv[])
