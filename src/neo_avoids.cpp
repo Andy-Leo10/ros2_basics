@@ -51,7 +51,7 @@ private:
     else
     {
       move.angular.z = angular_z;
-      RCLCPP_INFO("front fail");
+      std::cout << "front fail" << std::endl;
     }
     // If the laser reading on the right side of the robot is lower than one meter the robot will turn left
     if (range180 < 1.0)
