@@ -46,20 +46,24 @@ private:
     {
       move.linear.x = linear_x;
       move.angular.z = 0.0;
+      RCLCPP_INFO(this->get_logger(), "front: '%f'", range360);
     }
     else
     {
       move.angular.z = angular_z;
+      RCLCPP_INFO("front fail");
     }
     // If the laser reading on the right side of the robot is lower than one meter the robot will turn left
     if (range180 < 1.0)
     {
       move.angular.z = angular_z;
+      RCLCPP_INFO(this->get_logger(), "right side: '%f'", range180);
     }
     // If the laser reading on the left side of the robot is lower than one meter the robot will turn right
     if (range540 < 1.0)
     {
       move.angular.z = -angular_z;
+      RCLCPP_INFO(this->get_logger(), "left side: '%f'", range540);
     }
     publisher_->publish(move);
   }
