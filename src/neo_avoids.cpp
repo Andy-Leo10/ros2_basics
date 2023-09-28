@@ -39,6 +39,7 @@ private:
     RCLCPP_INFO(this->get_logger(), "range360: '%f'", range360);
   }
 
+  //NOTA: el bobot tiene el laser al reves por lo que derecha e izquierda estan cambiados
   void timer_callback()
   {
     // If the laser reading in front of the robot is higher than one meter the robot will move forward, else it will go to the left
