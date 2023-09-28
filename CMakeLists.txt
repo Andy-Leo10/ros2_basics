@@ -26,3 +26,10 @@ if(BUILD_TESTING)
 endif()
 
 ament_package()
+#for the program
+add_executable(neo_node src/neo_avoids.cpp)
+ament_target_dependencies(neo_node rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs)
+install(TARGETS
+   neo_node
+   DESTINATION lib/${PROJECT_NAME}
+)
