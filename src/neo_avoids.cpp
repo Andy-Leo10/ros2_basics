@@ -16,7 +16,7 @@ public:
         "odom", 10, std::bind(&RobotNeo::odom_callback, this, _1));
     laser_subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
         "scan", 10, std::bind(&RobotNeo::laser_callback, this, _1));
-    timer_ = this->create_wall_timer(500ms, std::bind(&RobotNeo::timer_callback, this));
+    timer_ = this->create_wall_timer(250ms, std::bind(&RobotNeo::timer_callback, this));
   }
 
 private:
